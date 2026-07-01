@@ -17,7 +17,7 @@ body {
 @media print {
   @page {
     size: portrait;
-    margin: 0.5cm 0.6cm 0.5cm 0.6cm !important;
+    margin: 0.3cm 0.3cm 0.3cm 0.3cm !important;
   }
   
   /* Hide unnecessary layout components */
@@ -44,7 +44,7 @@ body {
     height: auto !important;
     background: #fff !important;
     color: #000 !important;
-    font-size: 11px !important;
+    font-size: 10px !important; /* Slightly smaller font */
   }
   
   /* High contrast colors for print */
@@ -70,10 +70,10 @@ body {
   .print-section > div {
     page-break-inside: avoid !important;
     break-inside: avoid !important;
-    margin-bottom: 12px !important;
-    padding: 8px !important;
-    border: 1px solid #d1d1ca !important;
-    border-radius: 8px !important;
+    margin-bottom: 6px !important; /* Reduced */
+    padding: 4px !important; /* Reduced */
+    border: 1px solid #e5e5de !important;
+    border-radius: 4px !important;
     background-color: #fafaf7 !important;
   }
   
@@ -81,36 +81,36 @@ body {
   .print-section table {
     width: 100% !important;
     border-collapse: collapse !important;
-    margin-top: 4px !important;
+    margin-top: 2px !important;
   }
   
   .print-section table th {
     background-color: #f0f0e8 !important;
     color: #1a1a1a !important;
-    padding: 4px 6px !important;
-    font-size: 10px !important;
+    padding: 2px 4px !important;
+    font-size: 9px !important;
     font-weight: bold !important;
     border: 1px solid #d1d1ca !important;
   }
   
   .print-section table td {
-    padding: 4px 6px !important;
-    font-size: 10px !important;
-    line-height: 1.2 !important;
+    padding: 2px 4px !important;
+    font-size: 9px !important;
+    line-height: 1.1 !important;
     border: 1px solid #e5e5de !important;
   }
 
   .print-only-header {
     display: block !important;
-    margin-bottom: 15px !important;
-    padding-bottom: 8px !important;
-    border-bottom: 2px solid #5a5a40 !important;
+    margin-bottom: 8px !important;
+    padding-bottom: 4px !important;
+    border-bottom: 1px solid #5a5a40 !important;
   }
 
   /* Reduce gap and scale down badges inside tables for compact printing */
   .print-section span {
-    padding-top: 1px !important;
-    padding-bottom: 1px !important;
-    font-size: 9px !important;
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
+    font-size: 8px !important;
   }
 }

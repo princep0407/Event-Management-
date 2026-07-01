@@ -3,6 +3,11 @@ export interface EventInfo {
   date: string;
 }
 
+export interface SharedWith {
+  email: string;
+  role: 'viewer' | 'editor';
+}
+
 export interface EventData {
   id: string;
   name: string;
@@ -10,6 +15,8 @@ export interface EventData {
   committees: Committee[];
   volunteers: Volunteer[];
   assignments: Assignment[];
+  ownerEmail: string;
+  sharedWith: SharedWith[];
 }
 
 export interface User {

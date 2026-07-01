@@ -271,18 +271,24 @@ export default function Structure() {
         )}
       </div>
 
-      <div className="bg-white p-6 md:p-8 rounded-[32px] border border-[#e5e5de] shadow-sm font-sans">
+      <div className="bg-white p-6 md:p-8 rounded-[32px] border border-[#e5e5de] shadow-sm font-sans print-section">
+        {/* Print Header */}
+        <div className="hidden print:block print-only-header">
+          <h2 className="text-xl font-bold text-[#1a1a1a]">{eventInfo.name}</h2>
+          <p className="text-sm text-[#8e8e70]">{eventInfo.date}</p>
+        </div>
+        
         {/* Root Event Node */}
         <div className="flex items-start">
           <button 
             onClick={() => toggleNode('root')}
-            className="mt-1 p-1 text-[#8e8e70] hover:text-[#1a1a1a] hover:bg-[#f0f0e8] rounded-lg transition-colors cursor-pointer"
+            className="mt-1 p-1 text-[#8e8e70] hover:text-[#1a1a1a] hover:bg-[#f0f0e8] rounded-lg transition-colors cursor-pointer no-print"
           >
             {expandedNodes.has('root') ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
           </button>
           <div className="ml-2 w-full">
             <div className="flex items-center gap-3">
-              <FolderTree className="text-[#5a5a40]" size={24} />
+              <FolderTree className="text-[#5a5a40] no-print" size={24} />
               <span className="font-serif font-bold text-xl md:text-2xl text-[#1a1a1a]">{eventInfo.name}</span>
             </div>
             
@@ -370,7 +376,7 @@ export default function Structure() {
                             return (
                               <div key={a.id} className="flex flex-col py-1.5 group">
                                 <div className="flex flex-wrap items-center gap-2">
-                                  <User className="text-[#8e8e70] group-hover:text-[#5a5a40] transition-colors shrink-0" size={16} />
+                                  <User className="text-[#8e8e70] group-hover:text-[#5a5a40] transition-colors shrink-0 no-print" size={16} />
                                   <span className="text-sm text-[#1a1a1a] font-bold">{v.name}</span>
                                   {v.center && <span className="text-[10px] font-bold text-[#5a5a40] bg-[#f0f0e8] px-2 py-0.5 rounded-md border border-[#e5e5de]">{v.center}</span>}
                                   {a.role && <span className="text-[10px] font-bold text-[#5a5a40] bg-[#e5e5de] px-2 py-0.5 rounded-md uppercase tracking-wider">{a.role}</span>}

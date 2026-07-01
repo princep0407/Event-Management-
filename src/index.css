@@ -1,0 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=Hind+Vadodara:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Hind Vadodara", system-ui, sans-serif;
+  --font-serif: "Hind Vadodara", Georgia, serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@media print {
+  aside, header { display: none !important; }
+  main { display: block !important; width: 100% !important; margin: 0 !important; padding: 0 !important; overflow: visible !important; }
+  .overflow-hidden, .overflow-y-auto { overflow: visible !important; height: auto !important; }
+  body, html { overflow: visible !important; height: auto !important; }
+  .no-print { display: none !important; }
+  .print-only-header { display: block !important; }
+  .page-break-after-avoid { page-break-inside: avoid !important; }
+  * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+}

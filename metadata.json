@@ -1,0 +1,8 @@
+{
+  "name": "Event Management",
+  "description": "A bilingual (Gujarati/English) single-page application for organizing volunteers at an event.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

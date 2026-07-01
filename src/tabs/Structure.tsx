@@ -133,6 +133,7 @@ export default function Structure() {
         </div>
       </div>
 
+
       {/* Filter and Search Bar */}
       <div className="bg-[#fbfbf9] p-4 rounded-3xl border border-[#e5e5de] space-y-4 no-print shadow-sm">
         <div className="flex flex-col sm:flex-row gap-3">
@@ -326,7 +327,43 @@ export default function Structure() {
                       
                       {isExpanded && (
                         <div className="mt-3 ml-2 md:ml-4 pl-3 md:pl-6 border-l-2 border-dashed border-[#e5e5de] space-y-2">
-                          {commAssignments.length === 0 && <p className="text-[#8e8e70] text-sm py-1">No volunteers.</p>}
+                          {c.sanyojakVolunteers && c.sanyojakVolunteers.length > 0 && (
+                            <div className="flex flex-wrap items-center gap-2 py-1.5 px-3 bg-amber-50/50 border border-amber-100 rounded-xl">
+                              <span className="text-[10px] font-bold uppercase tracking-wider text-amber-800 bg-amber-100 px-1.5 py-0.5 rounded">
+                                {language === 'gu' ? 'સંયોજક' : 'Sanyojak'}
+                              </span>
+                              {c.sanyojakVolunteers.map((sv, sidx) => {
+                                const name = typeof sv === 'string' ? sv : sv.name;
+                                const mobile = typeof sv === 'string' ? '' : sv.mobile;
+                                return (
+                                  <span key={sidx} className="text-xs text-[#1a1a1a] font-bold flex items-center gap-1">
+                                    {name} {mobile && <span className="text-[10px] text-[#8e8e70] font-mono">({mobile})</span>}
+                                  </span>
+                                );
+                              })}
+                            </div>
+                          )}
+
+                          {c.nirikshakVolunteers && c.nirikshakVolunteers.length > 0 && (
+                            <div className="flex flex-wrap items-center gap-2 py-1.5 px-3 bg-blue-50/50 border border-blue-100 rounded-xl">
+                              <span className="text-[10px] font-bold uppercase tracking-wider text-blue-800 bg-blue-100 px-1.5 py-0.5 rounded">
+                                {language === 'gu' ? 'નિરીક્ષક' : 'Nirikshak'}
+                              </span>
+                              {c.nirikshakVolunteers.map((nv, nidx) => {
+                                const name = typeof nv === 'string' ? nv : nv.name;
+                                const mobile = typeof nv === 'string' ? '' : nv.mobile;
+                                return (
+                                  <span key={nidx} className="text-xs text-[#1a1a1a] font-bold flex items-center gap-1">
+                                    {name} {mobile && <span className="text-[10px] text-[#8e8e70] font-mono">({mobile})</span>}
+                                  </span>
+                                );
+                              })}
+                            </div>
+                          )}
+
+                          {commAssignments.length === 0 && (!c.sanyojakVolunteers || c.sanyojakVolunteers.length === 0) && (!c.nirikshakVolunteers || c.nirikshakVolunteers.length === 0) && (
+                            <p className="text-[#8e8e70] text-sm py-1">No volunteers.</p>
+                          )}
                           {commAssignments.map(a => {
                             const v = volunteers.find(vol => vol.id === a.volunteerId);
                             if (!v) return null;

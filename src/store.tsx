@@ -209,8 +209,17 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     setState(defaultState);
   };
 
+  // Filter events based on currentUser email
+  const allowedEvents = state.events.filter(e => {
+    const isSankalp = e.name.includes('શ્રી હરિ સંકલ્પ') || e.id.includes('sankalp');
+    if (isSankalp) {
+      return currentUser?.email?.toLowerCase() === 'ghanshyampatel4721@gmail.com';
+    }
+    return true;
+  });
+
   // Active event helper
-  const activeEvent = state.events.find(e => e.id === state.currentEventId) || state.events[0] || defaultState.events[0];
+  const activeEvent = allowedEvents.find(e => e.id === state.currentEventId) || allowedEvents[0] || defaultState.events[0];
 
   const setLanguage = (language: AppLanguage) => setState(s => ({ ...s, language }));
   const setCurrentEventId = (id: string) => setState(s => ({ ...s, currentEventId: id }));
@@ -372,7 +381,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       volunteers: activeEvent.volunteers || [],
       assignments: activeEvent.assignments || [],
       // Multiple events list and management
-      events: state.events,
+      events: allowedEvents,
       currentEventId: state.currentEventId,
       setCurrentEventId,
       addEvent,

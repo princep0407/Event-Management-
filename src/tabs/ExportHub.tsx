@@ -25,6 +25,7 @@ export default function ExportHub() {
   const [activeMode, setActiveMode] = useState<ExportMode>('committee-wise');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedRoleFilter, setSelectedRoleFilter] = useState<string>('all');
+  const [selectedCenterFilter, setSelectedCenterFilter] = useState<string>('all');
 
   const [selectedTreeCommittees, setSelectedTreeCommittees] = useState<string[]>([]);
   const [selectedTreeSanyojakSants, setSelectedTreeSanyojakSants] = useState<string[]>([]);
@@ -325,6 +326,7 @@ export default function ExportHub() {
     ];
 
     const filteredVols = volunteers.filter(v => {
+      if (selectedCenterFilter !== 'all' && v.center !== selectedCenterFilter) return false;
       if (searchQuery) {
         const sLower = searchQuery.toLowerCase();
         const matchesName = v.name.toLowerCase().includes(sLower);
@@ -379,6 +381,9 @@ export default function ExportHub() {
 
   // Unique list of roles assigned across the system for the filter dropdown
   const uniqueRoles = Array.from(new Set(assignments.map(a => a.role).filter(Boolean))) as string[];
+
+  // Unique list of centers across the system for the center-wise filter dropdown
+  const uniqueCenters = Array.from(new Set(volunteers.map(v => v.center).filter(Boolean))) as string[];
 
   // Filtered committees according to search query
   const filteredCommittees = committees.filter(c => {
@@ -440,6 +445,7 @@ export default function ExportHub() {
           </p>
         </div>
       </div>
+
 
       {/* Control Tabs (Excel / Print options switching) - Hidden in Print */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-4 rounded-3xl border border-[#e5e5de] shadow-sm no-print">
@@ -603,7 +609,7 @@ export default function ExportHub() {
           {/* Roles dropdown filter (only visible on roles mode) */}
           {activeMode === 'roles-assignments' && (
             <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-2xl border border-[#e5e5de]">
-              <Filter size={16} className="text-[#8e8e70]" />
+               <Filter size={16} className="text-[#8e8e70]" />
               <select
                 value={selectedRoleFilter}
                 onChange={(e) => setSelectedRoleFilter(e.target.value)}
@@ -612,6 +618,23 @@ export default function ExportHub() {
                 <option value="all">{language === 'gu' ? 'બધા હોદ્દા (All Roles)' : 'All Roles'}</option>
                 {uniqueRoles.map(role => (
                   <option key={role} value={role}>{role}</option>
+                ))}
+              </select>
+            </div>
+          )}
+
+          {/* Centers dropdown filter (only visible on center-wise mode) */}
+          {activeMode === 'center-wise' && (
+            <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-2xl border border-[#e5e5de]">
+               <Filter size={16} className="text-[#8e8e70]" />
+              <select
+                value={selectedCenterFilter}
+                onChange={(e) => setSelectedCenterFilter(e.target.value)}
+                className="bg-transparent text-sm font-bold text-[#5a5a40] focus:outline-none cursor-pointer"
+              >
+                <option value="all">{language === 'gu' ? 'બધા કેન્દ્રો (All Centers)' : 'All Centers'}</option>
+                {uniqueCenters.map(center => (
+                  <option key={center} value={center}>{center}</option>
                 ))}
               </select>
             </div>
@@ -872,6 +895,39 @@ export default function ExportHub() {
                             </span>
                           )}
                         </div>
+
+                        {c.sanyojakVolunteers && c.sanyojakVolunteers.length > 0 && (
+                          <div className="text-xs text-[#8e8e70] font-semibold mt-1.5 flex items-center gap-1.5 flex-wrap">
+                            <span className="text-[10px] font-bold uppercase tracking-wider text-amber-800 bg-amber-100/60 border border-amber-200 px-1.5 py-0.5 rounded">
+                              {language === 'gu' ? 'સમિતિ સંયોજક' : 'Committee Sanyojak'}
+                            </span>
+                            {c.sanyojakVolunteers.map((sv, sidx) => {
+                              const name = typeof sv === 'string' ? sv : sv.name;
+                              const mobile = typeof sv === 'string' ? '' : sv.mobile;
+                              return (
+                                <span key={sidx} className="text-[#1a1a1a] font-bold bg-[#f0f0e8] px-2 py-0.5 rounded border border-[#e5e5de] text-[11px]">
+                                  {name} {mobile && <span className="font-mono text-[10px] font-normal">({mobile})</span>}
+                                </span>
+                              );
+                            })}
+                          </div>
+                        )}
+                        {c.nirikshakVolunteers && c.nirikshakVolunteers.length > 0 && (
+                          <div className="text-xs text-[#8e8e70] font-semibold mt-1.5 flex items-center gap-1.5 flex-wrap">
+                            <span className="text-[10px] font-bold uppercase tracking-wider text-blue-800 bg-blue-100/60 border border-blue-200 px-1.5 py-0.5 rounded">
+                              {language === 'gu' ? 'સમિતિ નિરીક્ષક' : 'Committee Nirikshak'}
+                            </span>
+                            {c.nirikshakVolunteers.map((nv, nidx) => {
+                              const name = typeof nv === 'string' ? nv : nv.name;
+                              const mobile = typeof nv === 'string' ? '' : nv.mobile;
+                              return (
+                                <span key={nidx} className="text-[#1a1a1a] font-bold bg-[#f0f0e8] px-2 py-0.5 rounded border border-[#e5e5de] text-[11px]">
+                                  {name} {mobile && <span className="font-mono text-[10px] font-normal">({mobile})</span>}
+                                </span>
+                              );
+                            })}
+                          </div>
+                        )}
                       </div>
 
                       {/* Capacity counts */}
@@ -1519,8 +1575,9 @@ export default function ExportHub() {
             </div>
 
             {(() => {
-              // Get all volunteers and filter them based on searchQuery
+              // Get all volunteers and filter them based on searchQuery and selectedCenterFilter
               const filteredVols = volunteers.filter(v => {
+                if (selectedCenterFilter !== 'all' && v.center !== selectedCenterFilter) return false;
                 if (searchQuery) {
                   const sLower = searchQuery.toLowerCase();
                   const matchesName = v.name.toLowerCase().includes(sLower);

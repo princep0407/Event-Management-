@@ -15,12 +15,102 @@ body {
 }
 
 @media print {
-  aside, header { display: none !important; }
-  main { display: block !important; width: 100% !important; margin: 0 !important; padding: 0 !important; overflow: visible !important; }
-  .overflow-hidden, .overflow-y-auto { overflow: visible !important; height: auto !important; }
-  body, html { overflow: visible !important; height: auto !important; }
-  .no-print { display: none !important; }
-  .print-only-header { display: block !important; }
-  .page-break-after-avoid { page-break-inside: avoid !important; }
-  * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+  @page {
+    size: portrait;
+    margin: 0.5cm 0.6cm 0.5cm 0.6cm !important;
+  }
+  
+  /* Hide unnecessary layout components */
+  aside, header, footer, .no-print {
+    display: none !important;
+  }
+  
+  /* Make main occupy the entire workspace */
+  main {
+    display: block !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: visible !important;
+  }
+  
+  .overflow-hidden, .overflow-y-auto {
+    overflow: visible !important;
+    height: auto !important;
+  }
+  
+  body, html {
+    overflow: visible !important;
+    height: auto !important;
+    background: #fff !important;
+    color: #000 !important;
+    font-size: 11px !important;
+  }
+  
+  /* High contrast colors for print */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    text-shadow: none !important;
+    box-shadow: none !important;
+  }
+  
+  /* Dense Print-section layout */
+  .print-section {
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    width: 100% !important;
+    overflow: visible !important;
+  }
+  
+  /* Prevent group elements from breaking across pages */
+  .print-section > div {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    margin-bottom: 12px !important;
+    padding: 8px !important;
+    border: 1px solid #d1d1ca !important;
+    border-radius: 8px !important;
+    background-color: #fafaf7 !important;
+  }
+  
+  /* Extremely dense printed tables */
+  .print-section table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    margin-top: 4px !important;
+  }
+  
+  .print-section table th {
+    background-color: #f0f0e8 !important;
+    color: #1a1a1a !important;
+    padding: 4px 6px !important;
+    font-size: 10px !important;
+    font-weight: bold !important;
+    border: 1px solid #d1d1ca !important;
+  }
+  
+  .print-section table td {
+    padding: 4px 6px !important;
+    font-size: 10px !important;
+    line-height: 1.2 !important;
+    border: 1px solid #e5e5de !important;
+  }
+
+  .print-only-header {
+    display: block !important;
+    margin-bottom: 15px !important;
+    padding-bottom: 8px !important;
+    border-bottom: 2px solid #5a5a40 !important;
+  }
+
+  /* Reduce gap and scale down badges inside tables for compact printing */
+  .print-section span {
+    padding-top: 1px !important;
+    padding-bottom: 1px !important;
+    font-size: 9px !important;
+  }
 }
